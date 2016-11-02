@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.spirit.org/mapper-generate-1.0"
+	xmlns:tns="http://www.spirit.org/mapper-generate-1.0"
+	elementFormDefault="qualified">
+
+	<!-- 定义generate标签下的元素 -->
+	<element name="generate">
+		<complexType>
+			<sequence>
+				<element name="database" type="tns:db" maxOccurs="1"></element>
+				<element name="modules" type="tns:modules" maxOccurs="1"></element>
+				<element name="tables" type="tns:tables" maxOccurs="1"></element>
+			</sequence>
+		</complexType>
+	</element>
+
+	<!-- 定义database标签下的元素 -->
+	<complexType name="db">
+		<sequence>
+			<element name="driver" type="string" maxOccurs="1"></element>
+			<element name="url" type="string" maxOccurs="1"></element>
+			<element name="user" type="string" maxOccurs="1"></element>
+			<element name="password" type="string" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<!-- 定义modules标签下的元素 -->
+	<complexType name="modules">
+		<sequence>
+			<element name="model" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
+			<element name="vo" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
+			<element name="mapper" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
+			<element name="xml" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
+			<element name="service" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
+			<element name="controller" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
+		</sequence>
+	</complexType>
+
+	<!-- 定义tables标签下的元素 -->
+	<complexType name="tables">
+		<sequence>
+			<element name="table" type="tns:tableAttrs" minOccurs="1" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+	
+	<!-- 定义table标签的属性 -->
+	<complexType name="tableAttrs">
+		<attribute name="tableName" type="string" use="required"></attribute>
+	</complexType>
+	
+	<!-- 定义模块下的所有通用属性 -->
+	<complexType name="attrs">
+		<attribute name="targetPackage" type="string" default="org.spirit.mapper.generate.example"></attribute>
+	</complexType>
+	
+</schema>
