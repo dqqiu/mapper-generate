@@ -2,8 +2,10 @@ package org.spirit.mapper.generate.analyze;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -79,6 +81,7 @@ public class MapperGenerateXmlAnalyze {
    */
   private static void handlerModuleMeta(Element element, GenerateMeta generateMeta){
     List<ModuleMeta> list = new ArrayList<>();
+    Map<String, ModuleMeta> moduleMetaMap = new HashMap<>();
     List elements = element.elements();
     if(elements != null && elements.size() > 0){
       for(int i = 0,size = elements.size(); i < size; i++){
@@ -90,9 +93,11 @@ public class MapperGenerateXmlAnalyze {
           ModuleMeta moduleMeta = new ModuleMeta();
           moduleMeta.setTargetPackage(targetPackage);
           list.add(moduleMeta);
+          moduleMetaMap.put(eleName, moduleMeta);
         }
       }
       generateMeta.setModules(list);
+      generateMeta.setModulesMap(moduleMetaMap);
     }
     
   }

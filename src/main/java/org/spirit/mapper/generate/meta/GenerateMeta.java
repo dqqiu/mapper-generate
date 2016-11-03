@@ -2,6 +2,7 @@ package org.spirit.mapper.generate.meta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.spirit.mapper.generate.exception.MapperGenerateException;
 import org.spirit.mapper.generate.meta.db.TableMeta;
@@ -23,6 +24,7 @@ public class GenerateMeta {
   private JDBCMeta jdbcMeta;
   /** 模块元数据 */
   private List<ModuleMeta> modules;
+  private Map<String, ModuleMeta> modulesMap;
   /** 数据库表元数据 */
   private List<TableMeta> tables;
   /** 代码生成路径 */
@@ -51,6 +53,13 @@ public class GenerateMeta {
   }
   public void setOutputPath(String outputPath) {
     this.outputPath = outputPath;
+  }
+  
+  public Map<String, ModuleMeta> getModulesMap() {
+    return modulesMap;
+  }
+  public void setModulesMap(Map<String, ModuleMeta> modulesMap) {
+    this.modulesMap = modulesMap;
   }
   public void validate() throws MapperGenerateException {
     jdbcMeta.validate();

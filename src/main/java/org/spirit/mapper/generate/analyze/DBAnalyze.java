@@ -3,6 +3,7 @@ package org.spirit.mapper.generate.analyze;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +33,7 @@ import org.springframework.stereotype.Component;
 public class DBAnalyze {
   @Autowired
   private JDBCUtils jdbcUtils;
-  
+
   /**
    *  @Description	: qiudequan 解析表和字段
    *  @param          : tableNames
@@ -89,7 +90,53 @@ public class DBAnalyze {
       jdbcUtils.clear();
     }
   }
-  
+
+  /**
+   *  @Description  : qiudequan 解析表和字段
+   *  @param          : tableNames
+   *  @return       : List<TableMeta>
+   *  @Creation Date  : 2016年11月3日 下午1:35:25 
+   *  @Author         : qiudequan
+   */
+  public List<TableMeta> analyzeTables2(List<String> tableNames){
+    jdbcUtils.connect();
+    Connection connection = jdbcUtils.getConnection();
+    DatabaseMetaData metaData = null;
+    ResultSet resultSet = null;
+    try {
+      metaData = connection.getMetaData();
+      resultSet = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
+      List<TableMeta> tableMetas = new ArrayList<>();
+      while(resultSet.next()){
+        String tableName = resultSet.getString("TABLE_NAME");
+        if(tableNames != null && tableNames.size() != 0 && tableNames.contains(tableName)){
+          String sql = "select * from " + tableName + " where 1 = 2";
+          jdbcUtils.setSql(sql);
+          ResultSet rst = jdbcUtils.executeQuery();
+          if(rst != null){
+            ResultSetMetaData rsmd = rst.getMetaData();
+            for (int i = 0, len = rsmd.getColumnCount(); i < len; i++) {
+              int index = i + 1;
+              int length = rsmd.getColumnDisplaySize(index);
+              String type = rsmd.getColumnTypeName(index);
+              String name = rsmd.getColumnName(index);
+              String columnTypeName = rsmd.getColumnTypeName(index);
+              String columnClassName = rsmd.getColumnClassName(index);
+              String comment = rsmd.getColumnLabel(index);
+            }
+          }
+        }
+      }
+      return tableMetas;
+    } catch (Exception e) {
+      throw new MapperGenerateException("解析表时发生异常", e);
+    } finally {
+      jdbcUtils.closeResultSet(resultSet);
+      jdbcUtils.closeConnection();
+      jdbcUtils.clear();
+    }
+  }
+
   /**
    *  @Description	: qiudequan 获取连接时的schema
    *  @param          : @param connection

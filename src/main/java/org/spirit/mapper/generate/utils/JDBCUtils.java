@@ -94,7 +94,7 @@ public class JDBCUtils {
    *  @Creation Date  : 2016年11月3日 上午9:56:55 
    *  @Author         : qiudequan
    */
-  public Result executeQuery(){
+  public Result executeQueryAsResult(){
     Result result = null;
     ResultSet resultSet = null;  
     PreparedStatement pst = null;
@@ -115,6 +115,31 @@ public class JDBCUtils {
       clear();
     }
     return result;  
+  }
+  
+  /**
+   *  @Description  : qiudequan 执行查询
+   *  @param          : @return
+   *  @return       : ResultSet
+   *  @Creation Date  : 2016年11月3日 上午9:56:55 
+   *  @Author         : qiudequan
+   */
+  public ResultSet executeQuery(){
+    ResultSet resultSet = null;  
+    PreparedStatement pst = null;
+    try {  
+      pst = connection.prepareStatement(sql);  
+      if(sqlValues != null && sqlValues.size() > 0){  //当sql语句中存在占位符时  
+        setSqlValues(pst, sqlValues);  
+      }  
+      resultSet = pst.executeQuery();  
+    } catch (SQLException e) {
+      logger.error("execute query error.[sql:({}), sqlValues:({})]", sql, sqlValues != null ? Arrays.toString(sqlValues.toArray(new String[]{})) : "", e);
+      e.printStackTrace();  
+    } finally {
+      clear();
+    }
+    return resultSet;  
   }
 
   /**
@@ -237,7 +262,7 @@ public class JDBCUtils {
     jdbcUtils.connect();
     jdbcUtils.setSql(sql);
     jdbcUtils.setSqlValues(list);
-    Result result = jdbcUtils.executeQuery();
+    Result result = jdbcUtils.executeQueryAsResult();
     if(result != null){
       int rows = result.getRowCount();
       if(rows > 0){

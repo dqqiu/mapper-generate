@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.spirit.mapper.generate.enums.MysqlTypeEnum;
+import org.spirit.mapper.generate.utils.StringUtils;
 
 /**
  * @Project       : mapper-generate
@@ -84,6 +85,10 @@ public class TableMeta {
       }
     }
     return typeMap;
+  }
+  
+  public String getFirstLetterUpperName(){
+    return StringUtils.firstLetterToUpper(StringUtils.camel(this.name));
   }
 
 }

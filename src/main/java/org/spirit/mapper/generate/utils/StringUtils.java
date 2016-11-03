@@ -133,6 +133,13 @@ public class StringUtils {
       return null;
     }
   }
+  
+  public static String replaceAll(String str, String sourceStr, String replaceStr){
+    if(isEmpty(str)){
+      return str;
+    }
+    return str.replaceAll(sourceStr, replaceStr);
+  }
 
 
   public static void main(String[] args) {
