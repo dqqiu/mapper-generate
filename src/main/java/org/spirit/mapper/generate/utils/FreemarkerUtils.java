@@ -63,7 +63,7 @@ public class FreemarkerUtils {
    */
   public static void printFile(String ftlName, Map<String,Object> root, String outFile, String filePath, String ftlPath) throws Exception{
     try {
-      File file = new File(PathUtils.getClasspath() + filePath + outFile);
+      File file = new File(filePath + outFile);
       if(!file.getParentFile().exists()){             //判断有没有父路径，就是判断文件整个路径是否存在
         file.getParentFile().mkdirs();              //不存在就全部创建
       }
@@ -87,7 +87,7 @@ public class FreemarkerUtils {
     try {
       Configuration cfg = new Configuration();                                                //通过Freemaker的Configuration读取相应的ftl
       cfg.setEncoding(Locale.CHINA, "utf-8");
-      cfg.setDirectoryForTemplateLoading(new File(PathUtils.getClassResources()+"/ftl/"+ftlPath));     //设定去哪里读取相应的ftl模板文件
+      cfg.setDirectoryForTemplateLoading(new File(PathUtils.getClassResources()+"/templates/"+ftlPath));     //设定去哪里读取相应的ftl模板文件
       Template temp = cfg.getTemplate(ftlName);                                               //在模板文件目录中找到名称为name的文件
       return temp;
     } catch (IOException e) {

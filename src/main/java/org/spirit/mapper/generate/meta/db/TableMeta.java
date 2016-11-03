@@ -1,7 +1,11 @@
 package org.spirit.mapper.generate.meta.db;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import org.spirit.mapper.generate.enums.MysqlTypeEnum;
 
 /**
  * @Project       : mapper-generate
@@ -17,10 +21,10 @@ import java.util.List;
 public class TableMeta {
   /** 表名 */
   private String name;
-  
+
   /** 表注释 */
   private String tableComment;
-  
+
   /** 表字段 */
   private List<FieldMeta> fields;
 
@@ -47,7 +51,7 @@ public class TableMeta {
   public void setFields(List<FieldMeta> fields) {
     this.fields = fields;
   }
-  
+
   /**
    *  @Description	: qiudequan 获取所有字段名
    *  @param          : 
@@ -65,5 +69,21 @@ public class TableMeta {
     }
     return fieldNames;
   }
-  
+
+  public Map<String, String> getFieldTypeMap(){
+    Map<String, String> typeMap = new HashMap<>();
+    if(fields != null && fields.size() != 0){
+      for (FieldMeta fieldMeta : fields) {
+        String fieldType = fieldMeta.getType();
+        MysqlTypeEnum mysqlTypeEnum = MysqlTypeEnum.get(fieldType);
+        if(mysqlTypeEnum != null){
+          String javaPackage = mysqlTypeEnum.getJavaPackage();
+          String javaType = mysqlTypeEnum.getJavaType();
+          typeMap.put(javaType, javaPackage);
+        }
+      }
+    }
+    return typeMap;
+  }
+
 }
