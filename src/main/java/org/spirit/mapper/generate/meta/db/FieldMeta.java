@@ -12,13 +12,31 @@ package org.spirit.mapper.generate.meta.db;
  * qiudequan     2016年10月29日        create
  */
 public class FieldMeta {
+  private String name;
+  
   private String type;
+  
+  private String fieldType;
+  
+  private String length;
+  
+  private String digits;
+  
+  private String nullable;
   
   private String javaType;
   
   private String javaPackage;
   
   private String comment;
+  
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
 
   public String getType() {
     return type;
@@ -26,6 +44,38 @@ public class FieldMeta {
 
   public void setType(String type) {
     this.type = type;
+  }
+
+  public String getFieldType() {
+    return fieldType;
+  }
+
+  public void setFieldType(String fieldType) {
+    this.fieldType = fieldType;
+  }
+  
+  public String getLength() {
+    return length;
+  }
+
+  public void setLength(String length) {
+    this.length = length;
+  }
+
+  public String getDigits() {
+    return digits;
+  }
+
+  public void setDigits(String digits) {
+    this.digits = digits;
+  }
+
+  public String getNullable() {
+    return nullable;
+  }
+
+  public void setNullable(String nullable) {
+    this.nullable = nullable;
   }
 
   public String getJavaType() {

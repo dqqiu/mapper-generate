@@ -1,5 +1,6 @@
 package org.spirit.mapper.generate.meta;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.spirit.mapper.generate.exception.MapperGenerateException;
@@ -62,5 +63,16 @@ public class GenerateMeta {
     if(StringUtils.isEmpty(outputPath)){
       throw new MapperGenerateException("请指定代码生成路径");
     }
+  }
+  
+  public List<String> getTableNames(){
+    if(tables == null || tables.size() == 0){
+      return null;
+    }
+    List<String> tableNames = new ArrayList<>();
+    for (TableMeta tableMeta : tables) {
+      tableNames.add(tableMeta.getName());
+    }
+    return tableNames;
   }
 }

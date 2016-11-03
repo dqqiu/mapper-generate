@@ -1,5 +1,6 @@
 package org.spirit.mapper.generate.meta.db;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,6 +46,24 @@ public class TableMeta {
 
   public void setFields(List<FieldMeta> fields) {
     this.fields = fields;
+  }
+  
+  /**
+   *  @Description	: qiudequan 获取所有字段名
+   *  @param          : 
+   *  @return 		: List<String>
+   *  @Creation Date  : 2016年11月3日 下午1:38:35 
+   *  @Author         : qiudequan
+   */
+  public List<String> getFieldNames(){
+    if(fields == null || fields.size() == 0){
+      return null;
+    }
+    List<String> fieldNames = new ArrayList<>();
+    for (FieldMeta fieldMeta : fields) {
+      fieldNames.add(fieldMeta.getName());
+    }
+    return fieldNames;
   }
   
 }

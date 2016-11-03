@@ -12,17 +12,21 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.spirit.mapper.generate.autoconfiguration.MapperGenerateProperties;
 import org.spirit.mapper.generate.exception.MapperGenerateException;
 import org.spirit.mapper.generate.meta.GenerateMeta;
 import org.spirit.mapper.generate.meta.JDBCMeta;
 import org.spirit.mapper.generate.meta.ModuleMeta;
 import org.spirit.mapper.generate.meta.db.TableMeta;
+import org.spirit.mapper.generate.utils.BeanFactoryUtils;
 import org.spirit.mapper.generate.utils.StringUtils;
 
+@SuppressWarnings(value = {"unused", "rawtypes"})
 public class MapperGenerateXmlAnalyze {
   private static final Logger logger = LoggerFactory.getLogger(MapperGenerateXmlAnalyze.class);
-  public static GenerateMeta getGenerateMeta() {
-    String path = Thread.currentThread().getContextClassLoader().getResource("META-INF/mapper-generate.xml").getPath();
+  public static GenerateMeta analyze() {
+    MapperGenerateProperties mapperGenerateProperties = BeanFactoryUtils.getBean(MapperGenerateProperties.class);
+    String path = Thread.currentThread().getContextClassLoader().getResource(mapperGenerateProperties.getXmlPath()).getPath();
     File file = new File(path);
     try {
       SAXReader reader = new SAXReader();

@@ -1,0 +1,3 @@
+mapper:
+  generate:
+    xml-path: META-INF/mapper-generate.xml
