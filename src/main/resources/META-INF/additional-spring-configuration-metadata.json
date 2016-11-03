@@ -1,8 +1,10 @@
-{"properties": [
-  {
-    "name": "mapper.generate.xml-path",
-    "type": "java.lang.String",
-    "description": "代码生成配置文件路径",
-    "defaultValue": "META-INF/mapper-generate.xml"
-  }
-]}
+{
+	"properties": [
+		{
+			"name": "mapper.generate.xml-path",
+			"type": "java.lang.String",
+			"description": "代码生成配置文件路径",
+			"defaultValue": "META-INF/mapper-generate.xml"
+		}
+	]
+}

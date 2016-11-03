@@ -38,7 +38,7 @@ public class JDBCUtils {
   private Connection connection;
   private List sqlValues;
   private String sql;
-  
+
   public Connection getConnection() {
     return connection;
   }

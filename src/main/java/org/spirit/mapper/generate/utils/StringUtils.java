@@ -24,7 +24,7 @@ public class StringUtils {
     }
     return false;
   }
-  
+
   /**
    *  @Description	: qiudequan 判断字符串不为空
    *  @return         : boolean

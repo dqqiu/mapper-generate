@@ -20,54 +20,54 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  */
 public class PathUtils {
 
-	/**
-	 *  @Description	: qiudequan 获取classpath，退出target/classes目录
-	 *  @param          : @return
-	 *  @return 		: String
-	 *  @Creation Date  : 2016年11月3日 下午3:52:07 
-	 *  @Author         : qiudequan
-	 */
-	public static String getClasspath(){
-		String path = (String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))+"../../").replaceAll("file:/", "").replaceAll("%20", " ").trim();	
-		if(path.indexOf(":") != 1){
-			path = File.separator + path;
-		}
-		return path;
-	}
-	
-	/**
-	 *  @Description	: qiudequan 获取classpath
-	 *  @param          : @return
-	 *  @return 		: String
-	 *  @Creation Date  : 2016年11月3日 下午3:52:47 
-	 *  @Author         : qiudequan
-	 */
-	public static String getClassResources(){
-		String path =  (String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))).replaceAll("file:/", "").replaceAll("%20", " ").trim();	
-		if(path.indexOf(":") != 1){
-			path = File.separator + path;
-		}
-		return path;
-	}
-	
-	public static String pathAddress() {
-		String strResult = "";
+  /**
+   *  @Description	: qiudequan 获取classpath，退出target/classes目录
+   *  @param          : @return
+   *  @return 		: String
+   *  @Creation Date  : 2016年11月3日 下午3:52:07 
+   *  @Author         : qiudequan
+   */
+  public static String getClasspath(){
+    String path = (String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))+"../../").replaceAll("file:/", "").replaceAll("%20", " ").trim();	
+    if(path.indexOf(":") != 1){
+      path = File.separator + path;
+    }
+    return path;
+  }
 
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getRequest();
+  /**
+   *  @Description	: qiudequan 获取classpath
+   *  @param          : @return
+   *  @return 		: String
+   *  @Creation Date  : 2016年11月3日 下午3:52:47 
+   *  @Author         : qiudequan
+   */
+  public static String getClassResources(){
+    String path =  (String.valueOf(Thread.currentThread().getContextClassLoader().getResource(""))).replaceAll("file:/", "").replaceAll("%20", " ").trim();	
+    if(path.indexOf(":") != 1){
+      path = File.separator + path;
+    }
+    return path;
+  }
 
-		StringBuffer strBuf = new StringBuffer();
+  public static String pathAddress() {
+    String strResult = "";
 
-		strBuf.append(request.getScheme() + "://");
-		strBuf.append(request.getServerName() + ":");
-		strBuf.append(request.getServerPort() + "");
+    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
+        .getRequestAttributes()).getRequest();
 
-		strBuf.append(request.getContextPath() + "/");
+    StringBuffer strBuf = new StringBuffer();
 
-		strResult = strBuf.toString();
+    strBuf.append(request.getScheme() + "://");
+    strBuf.append(request.getServerName() + ":");
+    strBuf.append(request.getServerPort() + "");
 
-		return strResult;
-	}
-	
-	
+    strBuf.append(request.getContextPath() + "/");
+
+    strResult = strBuf.toString();
+
+    return strResult;
+  }
+
+
 }
