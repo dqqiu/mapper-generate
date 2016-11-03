@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.spirit.mapper.generate.exception.MapperGenerateException;
 import org.spirit.mapper.generate.meta.db.TableMeta;
+import org.spirit.mapper.generate.utils.StringUtils;
 
 /**
  * @Project       : mapper-generate
@@ -23,6 +24,8 @@ public class GenerateMeta {
   private List<ModuleMeta> modules;
   /** 数据库表元数据 */
   private List<TableMeta> tables;
+  /** 代码生成路径 */
+  private String outputPath;
   public JDBCMeta getJdbcMeta() {
     return jdbcMeta;
   }
@@ -42,6 +45,12 @@ public class GenerateMeta {
     this.tables = tables;
   }
   
+  public String getOutputPath() {
+    return outputPath;
+  }
+  public void setOutputPath(String outputPath) {
+    this.outputPath = outputPath;
+  }
   public void validate() throws MapperGenerateException {
     jdbcMeta.validate();
     if(modules == null || modules.size() <= 0){
@@ -49,6 +58,9 @@ public class GenerateMeta {
     }
     if(tables == null || tables.size() <= 0){
       throw new MapperGenerateException("请至少指定一张数据表");
+    }
+    if(StringUtils.isEmpty(outputPath)){
+      throw new MapperGenerateException("请指定代码生成路径");
     }
   }
 }

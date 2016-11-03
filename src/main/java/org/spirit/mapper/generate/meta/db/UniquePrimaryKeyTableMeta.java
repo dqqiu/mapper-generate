@@ -11,7 +11,7 @@ package org.spirit.mapper.generate.meta.db;
  * ----------   -------------    -----------------------------------
  * qiudequan     2016年10月29日        create
  */
-public class UniqueKeyTableMeta extends TableMeta {
+public class UniquePrimaryKeyTableMeta extends TableMeta {
   /** 主键 */
   private String primaryKey;
 

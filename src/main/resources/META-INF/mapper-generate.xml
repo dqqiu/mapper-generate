@@ -21,4 +21,5 @@
 		<table tableName="dict_state"></table>
 		<table tableName="dict_province"></table>
 	</tables>
+	<output>D:/generate/code</output>
 </generate>

@@ -44,6 +44,9 @@ public class MapperGenerateXmlAnalyze {
             case "tables":
               handlerTableMeta(element, generateMeta);
               break;
+            case "output":
+              generateMeta.setOutputPath(getElementValue(element));
+              break;
             default:
               break;
           }

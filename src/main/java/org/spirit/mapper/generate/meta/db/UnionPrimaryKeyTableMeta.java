@@ -1,5 +1,7 @@
 package org.spirit.mapper.generate.meta.db;
 
+import java.util.List;
+
 /**
  * @Project       : mapper-generate
  * @Program Name  : org.spirit.mapper.generate.convert.UniqueKeyTableMeta.java
@@ -11,6 +13,16 @@ package org.spirit.mapper.generate.meta.db;
  * ----------   -------------    -----------------------------------
  * qiudequan     2016年10月29日        create
  */
-public class UnionKeyTableMeta extends TableMeta {
+public class UnionPrimaryKeyTableMeta extends TableMeta {
+  /** 复合主键集合 */
+  private List<String> primaryKeys;
+
+  public List<String> getPrimaryKeys() {
+    return primaryKeys;
+  }
+
+  public void setPrimaryKeys(List<String> primaryKeys) {
+    this.primaryKeys = primaryKeys;
+  }
   
 }
