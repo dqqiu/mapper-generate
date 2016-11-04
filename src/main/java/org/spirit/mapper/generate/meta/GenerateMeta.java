@@ -62,7 +62,11 @@ public class GenerateMeta {
     this.modulesMap = modulesMap;
   }
   public void validate() throws MapperGenerateException {
-    jdbcMeta.validate();
+    if(jdbcMeta == null){
+      throw new MapperGenerateException("请配置数据库连接信息");
+    } else {
+      jdbcMeta.validate();
+    }
     if(modules == null || modules.size() <= 0){
       throw new MapperGenerateException("请至少指定一个模块");
     }

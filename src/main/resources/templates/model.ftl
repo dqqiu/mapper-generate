@@ -8,11 +8,12 @@ import ${table.getFieldTypeMap()[key]};
 
 /**
  *	${table.tableComment}
+ * @created by mapper-generate
  */
-public class ${table.getFirstLetterUpperName()} {
+public class ${table.getFirstLetterUpperName()}${nameSuffix} {
   <#list table.fields as field>
   /**
-   * 备注：${field.comment}. 字段：${field.getColumnType()}.
+   * 字段：${field.name}. 类型：${field.getColumnType()}. 备注：${field.comment}.
    */
   private ${field.javaType} ${field.camelName};
 

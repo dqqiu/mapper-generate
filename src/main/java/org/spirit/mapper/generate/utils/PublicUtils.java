@@ -5,10 +5,6 @@ import java.net.UnknownHostException;
 
 public class PublicUtils {
 
-  public static void main(String[] args) {
-    System.out.println("本机的ip=" + PublicUtils.getIp());
-  }
-
   public static String getPorjectPath(){
     String nowpath = "";
     nowpath=System.getProperty("user.dir")+"/";

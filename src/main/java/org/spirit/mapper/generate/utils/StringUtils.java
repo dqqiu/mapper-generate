@@ -140,13 +140,4 @@ public class StringUtils {
     }
     return str.replaceAll(sourceStr, replaceStr);
   }
-
-
-  public static void main(String[] args) {
-    String result = camel("user_code");
-    System.out.println(result);
-    String underlineResult = camelToUnderline(result);
-    System.out.println(underlineResult);
-    System.out.println(firstLetterToUpper("userCase"));
-  }
 }

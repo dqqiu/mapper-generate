@@ -22,6 +22,9 @@ import org.spirit.mapper.generate.utils.StringUtils;
 public class TableMeta {
   /** 表名 */
   private String name;
+  
+  /** 驼峰名 */
+  private String camelName;
 
   /** 表注释 */
   private String tableComment;
@@ -51,6 +54,14 @@ public class TableMeta {
 
   public void setFields(List<FieldMeta> fields) {
     this.fields = fields;
+  }
+  
+  public String getCamelName() {
+    return camelName;
+  }
+
+  public void setCamelName(String camelName) {
+    this.camelName = camelName;
   }
 
   /**

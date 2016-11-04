@@ -1,15 +1,19 @@
 package ${targetPackage};
 
-<#if typeMap?exists>
-<#list typeMap?keys as key>
-import ${typeMap[key]};
+<#if table.getFieldTypeMap()?exists>
+<#list table.getFieldTypeMap()?keys as key>
+import ${table.getFieldTypeMap()[key]};
 </#list>
 </#if>
 
-public class ${className}VO {
-  <#list fields as field>
+/**
+ *	${table.tableComment}
+ * @created by mapper-generate
+ */
+public class ${table.getFirstLetterUpperName()}${nameSuffix} {
+  <#list table.fields as field>
   /**
-   * 备注：${field.comment}. 字段：${field.getColumnType()}.
+   * 字段：${field.name}. 类型：${field.getColumnType()}. 备注：${field.comment}.
    */
   private ${field.javaType} ${field.camelName};
   <#if field.camelName?ends_with("Time")>
@@ -25,7 +29,7 @@ public class ${className}VO {
 
   </#list>
 
-  <#list fields as field>
+  <#list table.fields as field>
 
   public void set${field.firstLetterUpper}(${field.javaType} ${field.camelName}) {
     this.${field.camelName} = ${field.camelName};

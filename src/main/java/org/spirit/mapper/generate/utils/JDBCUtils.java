@@ -204,6 +204,7 @@ public class JDBCUtils {
     if(this.connection != null){
       try {
         this.connection.close();
+        this.connection = null;
       } catch (SQLException e) {
         logger.error("close db connection error", e);
         e.printStackTrace();
@@ -222,6 +223,7 @@ public class JDBCUtils {
     if(statement != null){
       try {
         statement.close();
+        statement = null;
       } catch (SQLException e) {
         logger.error("close statement error", e);
         e.printStackTrace();
@@ -240,37 +242,10 @@ public class JDBCUtils {
     if(resultSet != null){
       try {
         resultSet.close();
+        resultSet = null;
       } catch (SQLException e) {
         logger.error("close resultSet error", e);
         e.printStackTrace();
-      }
-    }
-  }
-
-  public static void main(String[] args) {
-    JDBCMeta jdbcMeta = new JDBCMeta();
-    jdbcMeta.setDriver("com.mysql.jdbc.Driver");
-    jdbcMeta.setUrl("jdbc:mysql://127.0.0.1:3306/dictionary");
-    jdbcMeta.setUser("root");
-    jdbcMeta.setPassword("root");
-
-    String sql = "select * from dict_state where dscp like ?";
-    List list = new ArrayList<>();
-    list.add("%中%");
-
-    JDBCUtils jdbcUtils = new JDBCUtils(jdbcMeta);
-    jdbcUtils.connect();
-    jdbcUtils.setSql(sql);
-    jdbcUtils.setSqlValues(list);
-    Result result = jdbcUtils.executeQueryAsResult();
-    if(result != null){
-      int rows = result.getRowCount();
-      if(rows > 0){
-        SortedMap[] maps = result.getRows();
-        for (SortedMap sortedMap : maps) {
-          String dscp = (String) sortedMap.get("dscp");
-          System.out.println(dscp);
-        }
       }
     }
   }

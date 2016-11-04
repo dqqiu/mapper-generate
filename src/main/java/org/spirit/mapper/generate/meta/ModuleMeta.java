@@ -12,8 +12,12 @@ package org.spirit.mapper.generate.meta;
  * qiudequan     2016年11月1日        create
  */
 public class ModuleMeta {
-  /** 代码生成路径包 */
+  /** 代码生成所在包 */
   private String targetPackage;
+  /** 代码生成所在路径 */
+  private String targetPath;
+  /** 生成对象的名称后缀 */
+  private String objectNameSuffix;
 
   public String getTargetPackage() {
     return targetPackage;
@@ -22,4 +26,21 @@ public class ModuleMeta {
   public void setTargetPackage(String targetPackage) {
     this.targetPackage = targetPackage;
   }
+
+  public String getTargetPath() {
+    return targetPath;
+  }
+
+  public void setTargetPath(String targetPath) {
+    this.targetPath = targetPath;
+  }
+
+  public String getObjectNameSuffix() {
+    return objectNameSuffix;
+  }
+
+  public void setObjectNameSuffix(String objectNameSuffix) {
+    this.objectNameSuffix = objectNameSuffix;
+  }
+  
 }
