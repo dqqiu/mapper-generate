@@ -29,14 +29,23 @@
 	<!-- 定义modules标签下的元素 -->
 	<complexType name="modules">
 		<sequence>
-			<element name="model" type="tns:attrs" minOccurs="0"
-				maxOccurs="1"></element>
+			<element name="model" minOccurs="0"
+				maxOccurs="1">
+				<complexType>
+					<attribute name="targetPackage" type="string"
+						default="org.spirit.mapper.generate.example"></attribute>
+					<attribute name="extends" type="string" default=""></attribute>
+					<attribute name="serializable" type="boolean" default="false"></attribute>
+					<attribute name="rejectAttributes" type="string" default=""></attribute>
+				</complexType>
+			</element>
 			<element name="vo" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
 			<element name="mapper" type="tns:attrs" minOccurs="0"
 				maxOccurs="1"></element>
 			<element name="xml" type="tns:attrs" minOccurs="0" maxOccurs="1"></element>
 			<element name="service" type="tns:attrs" minOccurs="0"
-				maxOccurs="1"></element>
+				maxOccurs="1">
+			</element>
 			<element name="controller" type="tns:attrs" minOccurs="0"
 				maxOccurs="1"></element>
 		</sequence>
@@ -53,12 +62,14 @@
 	<!-- 定义table标签的属性 -->
 	<complexType name="tableAttrs">
 		<attribute name="tableName" type="string" use="required"></attribute>
+		<attribute name="primaryKey" type="string" default="id"></attribute>
 	</complexType>
 
 	<!-- 定义模块下的所有通用属性 -->
 	<complexType name="attrs">
 		<attribute name="targetPackage" type="string"
 			default="org.spirit.mapper.generate.example"></attribute>
+		<attribute name="extends" type="string" default=""></attribute>
 	</complexType>
 
 </schema>

@@ -18,8 +18,8 @@
 		<controller targetPackage="org.spirit.mapper.generate.controller"></controller> -->
 	</modules>
 	<tables>
-		<table tableName="dict_state"></table>
-		<table tableName="dict_province"></table>
+		<table tableName="dict_state" primaryKey="id"/>
+		<table tableName="dict_province"  primaryKey="id" />
 	</tables>
 	<output>D:/generate/code</output>
 </generate>
