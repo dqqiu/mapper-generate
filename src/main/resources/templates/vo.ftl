@@ -1,16 +1,23 @@
-package ${targetPackage};
+package ${modules['vo'].targetPackage};
 
 <#if table.getFieldTypeMap()?exists>
 <#list table.getFieldTypeMap()?keys as key>
 import ${table.getFieldTypeMap()[key]};
 </#list>
 </#if>
+<#if (modules['model'].extend)??>
+import ${modules['model'].extend};
+</#if>
+<#if modules['model'].serializable?? && modules['model'].serializable == 'true'> 
+import java.io.Serializable;
+</#if>
 
 /**
  *	${table.tableComment}
  * @created by mapper-generate
+ * @opensource https://www.github.com/dqqiu/mapper-generate
  */
-public class ${table.getFirstLetterUpperName()}${nameSuffix} {
+public class ${table.getFirstLetterUpperName()}${modules['vo'].objectNameSuffix}<#if (modules['model'].extend)??> extends ${(modules['model'].extend)?substring((modules['model'].extend?last_index_of('.')) + 1)}</#if><#if modules['model'].serializable?? && modules['model'].serializable == 'true'> implements Serializable</#if> {
   <#list table.fields as field>
   /**
    * 字段：${field.name}. 类型：${field.getColumnType()}. 备注：${field.comment}.
