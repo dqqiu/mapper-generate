@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.spirit.mapper.generate.enums.MysqlTypeEnum;
+import org.spirit.mapper.generate.meta.ModuleMeta;
 import org.spirit.mapper.generate.utils.StringUtils;
 
 /**
@@ -20,6 +21,8 @@ import org.spirit.mapper.generate.utils.StringUtils;
  * qiudequan     2016年10月29日        create
  */
 public class TableMeta {
+  /** 主键 */
+  private String[] primaryKey;
   /** 表名 */
   private String name;
   
@@ -31,6 +34,8 @@ public class TableMeta {
 
   /** 表字段 */
   private List<FieldMeta> fields;
+  
+  private Map<String, ModuleMeta> moduleMetas;
 
   public String getName() {
     return name;
@@ -62,6 +67,22 @@ public class TableMeta {
 
   public void setCamelName(String camelName) {
     this.camelName = camelName;
+  }
+  
+  public Map<String, ModuleMeta> getModuleMetas() {
+    return moduleMetas;
+  }
+
+  public void setModuleMetas(Map<String, ModuleMeta> moduleMetas) {
+    this.moduleMetas = moduleMetas;
+  }
+
+  public String[] getPrimaryKey() {
+    return primaryKey;
+  }
+
+  public void setPrimaryKey(String[] primaryKey) {
+    this.primaryKey = primaryKey;
   }
 
   /**

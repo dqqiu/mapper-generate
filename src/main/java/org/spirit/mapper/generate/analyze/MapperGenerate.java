@@ -12,6 +12,10 @@ import org.spirit.mapper.generate.meta.ModuleMeta;
 import org.spirit.mapper.generate.meta.db.TableMeta;
 import org.spirit.mapper.generate.utils.FreemarkerUtils;
 
+import freemarker.ext.beans.BeansWrapper;
+import freemarker.template.TemplateHashModel;
+import freemarker.template.TemplateModel;
+
 /**
  * @Project       : mapper-generate
  * @Program Name  : org.spirit.mapper.generate.analyze.MapperGenerate.java
@@ -43,11 +47,17 @@ public class MapperGenerate {
         Set<String> keySet = modulesMap.keySet();
         for (String key : keySet) {
           Map<String, Object> root = new HashMap<>();
+          BeansWrapper beansWrapper = new BeansWrapper();
+          TemplateHashModel staticModels = beansWrapper.getStaticModels();
+          TemplateHashModel templateModel = (TemplateHashModel) staticModels.get("org.spirit.mapper.generate.utils.StringUtils");
           ModuleMeta moduleMeta = modulesMap.get(key);
-          root.put("targetPackage", moduleMeta.getTargetPackage());
+//          root.put("targetPackage", moduleMeta.getTargetPackage());
           root.put("table", tableMeta);
+          root.put("modules", modulesMap);
+          root.put("StringUtils", templateModel);
+          
           String nameSuffix = ModuleElementEnum.getNameSuffix(key);
-          root.put("nameSuffix", nameSuffix);
+//          root.put("nameSuffix", nameSuffix);
           String ftlName = key + ".ftl";
           String fileName = "/" + moduleMeta.getTargetPath() + "/" + tableMeta.getFirstLetterUpperName() + nameSuffix + ModuleElementEnum.getFileSuffix(key);
           FreemarkerUtils.printFile(ftlName, root, fileName, generateMeta.getOutputPath(), "");

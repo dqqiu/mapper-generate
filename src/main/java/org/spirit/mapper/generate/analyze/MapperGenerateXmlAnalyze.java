@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.dom4j.Attribute;
 import org.dom4j.Document;
@@ -19,6 +20,7 @@ import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.spirit.mapper.generate.autoconfiguration.MapperGenerateProperties;
+import org.spirit.mapper.generate.enums.ModuleElementEnum;
 import org.spirit.mapper.generate.exception.MapperGenerateException;
 import org.spirit.mapper.generate.meta.GenerateMeta;
 import org.spirit.mapper.generate.meta.JDBCMeta;
@@ -32,7 +34,7 @@ import org.spirit.mapper.generate.utils.StringUtils;
 @SuppressWarnings(value = {"unused", "rawtypes"})
 public class MapperGenerateXmlAnalyze {
   private static final Logger logger = LoggerFactory.getLogger(MapperGenerateXmlAnalyze.class);
-  
+
   public static GenerateMeta analyze(String xmlPath) {
     if(StringUtils.isEmpty(xmlPath)){
       MapperGenerateProperties mapperGenerateProperties = BeanFactoryUtils.getBean(MapperGenerateProperties.class);
@@ -101,12 +103,30 @@ public class MapperGenerateXmlAnalyze {
         Element ele = (Element) elements.get(i);
         if(ele != null){
           String eleName = ele.getName();
-          Attribute attribute = ele.attribute("targetPackage");
-          String targetPackage = attribute.getStringValue();
-          String targetPath = StringUtils.replaceAll(targetPackage, "\\.", "/");
+          String targetPackage = ele.attributeValue("targetPackage");
+          String extend = ele.attributeValue("extend");
+          String objectNameSuffix = ele.attributeValue("objectNameSuffix");
           ModuleMeta moduleMeta = new ModuleMeta();
+          String targetPath = StringUtils.replaceAll(targetPackage, "\\.", "/");
           moduleMeta.setTargetPackage(targetPackage);
           moduleMeta.setTargetPath(targetPath);
+          moduleMeta.setExtend(extend);
+          if(StringUtils.isEmpty(objectNameSuffix)){
+            moduleMeta.setObjectNameSuffix(ModuleElementEnum.getNameSuffix(eleName));
+          } else {
+            moduleMeta.setObjectNameSuffix(objectNameSuffix);
+          }
+          if("model".equals(eleName) || "vo".equals(eleName)){
+            String serializable = ele.attributeValue("serializable");
+            String rejectAttributes = ele.attributeValue("rejectAttributes");
+            if(StringUtils.isNotEmpty(serializable)){
+              moduleMeta.setSerializable(serializable);
+            }
+            if(StringUtils.isNotEmpty(rejectAttributes)){
+              moduleMeta.setRejectAttributes(rejectAttributes);
+            }
+          }
+
           list.add(moduleMeta);
           moduleMetaMap.put(eleName, moduleMeta);
         }
@@ -116,7 +136,7 @@ public class MapperGenerateXmlAnalyze {
     }
 
   }
-  
+
 
   /**
    *  @Description	: qiudequan 处理数据库表
@@ -126,22 +146,25 @@ public class MapperGenerateXmlAnalyze {
    */
   private static void handlerTableMeta(Element element, GenerateMeta generateMeta){
     List<String> tableNames = new ArrayList<>();
+    Map<String, String> tableKeys = new HashMap<>();
     Iterator elementIterator = element.elementIterator();
     // 解析xml节点数据
     while(elementIterator.hasNext()){
       Element ele = (Element) elementIterator.next();
       if(ele != null){
-        String tableName = getAttributeValue(ele.attribute("tableName"));
+        String tableName = ele.attributeValue("tableName");
+        String primaryKeys = ele.attributeValue("primaryKey");
         if(StringUtils.isNotEmpty(tableName)){
           tableNames.add(tableName);
+          tableKeys.put(tableName, primaryKeys);
         }
       }
     }
     // 解析数据表
-    List<TableMeta> analyzeTables = analyzeTables(tableNames, generateMeta.getJdbcMeta());
+    List<TableMeta> analyzeTables = analyzeTables(tableKeys, generateMeta.getJdbcMeta());
     generateMeta.setTables(analyzeTables);
   }
-  
+
   /**
    *  @Description	: qiudequan 获取数据库连接信息
    *  @param          : @param element
@@ -235,6 +258,81 @@ public class MapperGenerateXmlAnalyze {
         TableMeta tableMeta = null;
         if(tableNames.contains(tableName)){
           tableMeta = new TableMeta();
+          tableMeta.setName(tableName);
+          tableMeta.setTableComment(tableComment);
+          tableMeta.setCamelName(StringUtils.camel(tableName));
+          columnSet = metaData.getColumns(null, "%", tableName, "%");
+          List<FieldMeta> fields = new ArrayList<>();
+          FieldMeta fieldMeta;
+          for (int i = 1; columnSet.next(); i++) {
+            String sql = "select * from " + tableName + " where 1 = 2";
+            jdbcUtils.setSql(sql);
+            executeQuery = jdbcUtils.executeQuery();
+            ResultSetMetaData columnMd = executeQuery.getMetaData();
+            fieldMeta = new FieldMeta();
+            String fieldName = columnSet.getString("COLUMN_NAME");
+            String fieldComment = columnSet.getString("REMARKS");
+            String dataType = columnSet.getString("TYPE_NAME");
+            String length = String.valueOf(columnMd.getColumnDisplaySize(i));
+            String digits = columnSet.getString("DECIMAL_DIGITS");
+            String nullable = columnSet.getString("NULLABLE");
+            fieldMeta.setName(fieldName);
+            fieldMeta.setComment(fieldComment);
+            fieldMeta.setType(dataType);
+            fieldMeta.setLength(length);
+            fieldMeta.setDigits(digits);
+            fieldMeta.setNullable(nullable);
+            fields.add(fieldMeta);
+          }
+          tableMeta.setFields(fields);
+          tableMetas.add(tableMeta);
+        }
+      }
+      return tableMetas;
+    } catch (Exception e) {
+      throw new MapperGenerateException("解析表时发生异常", e);
+    } finally {
+      jdbcUtils.closeResultSet(executeQuery);
+      jdbcUtils.closeResultSet(columnSet);
+      jdbcUtils.closeResultSet(tableSet);
+      jdbcUtils.closeConnection();
+      jdbcUtils.clear();
+      jdbcUtils = null;
+    }
+  }
+  
+  /**
+   *  @Description  : qiudequan 解析表和字段
+   *  @param          : tableNames
+   *  @return       : List<TableMeta>
+   *  @Creation Date  : 2016年11月3日 下午1:35:25 
+   *  @Author         : qiudequan
+   */
+  public static List<TableMeta> analyzeTables(Map<String, String> tableKeys, JDBCMeta jdbcMeta){
+    JDBCUtils jdbcUtils = new JDBCUtils(jdbcMeta);
+    jdbcUtils.connect();
+    Connection connection = jdbcUtils.getConnection();
+    DatabaseMetaData metaData = null;
+    ResultSet tableSet = null;
+    ResultSet columnSet = null;
+    ResultSet executeQuery = null;
+    try {
+      metaData = connection.getMetaData();
+      tableSet = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
+      List<TableMeta> tableMetas = new ArrayList<>();
+      while(tableSet.next()){
+        String tableName = tableSet.getString("TABLE_NAME");
+        String tableComment = tableSet.getString("REMARKS");
+        TableMeta tableMeta = null;
+        Set<String> keys = tableKeys.keySet();
+        if(tableKeys.containsKey(tableName)){
+          String primaryKey = tableKeys.get(tableName);
+          tableMeta = new TableMeta();
+          if(StringUtils.isNotEmpty(primaryKey) && primaryKey.contains(",")){
+            tableMeta.setPrimaryKey(primaryKey.split(","));
+          } else {
+            tableMeta.setPrimaryKey(new String[]{primaryKey});
+          }
           tableMeta.setName(tableName);
           tableMeta.setTableComment(tableComment);
           tableMeta.setCamelName(StringUtils.camel(tableName));

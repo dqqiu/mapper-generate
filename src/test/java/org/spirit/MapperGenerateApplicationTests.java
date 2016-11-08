@@ -14,7 +14,7 @@ public class MapperGenerateApplicationTests {
   @Test
   public void test() {
     MapperGenerate mapperGenerate = new MapperGenerate();
-    mapperGenerate.setXmlPath("D:\\mapper-generate.xml");
+//    mapperGenerate.setXmlPath("D:\\mapper-generate.xml");
     mapperGenerate.generate();
   }
 

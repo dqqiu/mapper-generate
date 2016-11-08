@@ -18,6 +18,9 @@ public class ModuleMeta {
   private String targetPath;
   /** 生成对象的名称后缀 */
   private String objectNameSuffix;
+  private String serializable;
+  private String extend;
+  private String rejectAttributes;
 
   public String getTargetPackage() {
     return targetPackage;
@@ -42,5 +45,31 @@ public class ModuleMeta {
   public void setObjectNameSuffix(String objectNameSuffix) {
     this.objectNameSuffix = objectNameSuffix;
   }
+
+  public String getSerializable() {
+    return serializable;
+  }
+
+  public void setSerializable(String serializable) {
+    this.serializable = serializable;
+  }
+
+  public String getExtend() {
+    return extend;
+  }
+
+  public void setExtend(String extend) {
+    this.extend = extend;
+  }
+
+  public String getRejectAttributes() {
+    return rejectAttributes;
+  }
+
+  public void setRejectAttributes(String rejectAttributes) {
+    this.rejectAttributes = rejectAttributes;
+  }
+  
+  
   
 }
