@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.spirit.org/mapper-generate-1.0"
+	xmlns:tns="http://www.spirit.org/mapper-generate-1.0"
+	elementFormDefault="qualified">
+
+	<!-- 定义generate标签下的元素 -->
+	<element name="generate">
+		<complexType>
+			<sequence>
+				<element name="database" type="tns:db" maxOccurs="1" minOccurs="1"/>
+				<element name="modules" type="tns:modules" maxOccurs="1" minOccurs="1"/>
+				<element name="tables" type="tns:tables" maxOccurs="1" minOccurs="1"/>
+				<element name="output" type="string" maxOccurs="1" minOccurs="1"/>
+			</sequence>
+		</complexType>
+	</element>
+
+	<!-- 定义database标签下的元素 -->
+	<complexType name="db">
+		<sequence>
+			<element name="driver" type="string" maxOccurs="1"/>
+			<element name="url" type="string" maxOccurs="1"/>
+			<element name="user" type="string" maxOccurs="1"/>
+			<element name="password" type="string" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<!-- 定义modules标签下的元素 -->
+	<complexType name="modules">
+		<sequence>
+			<element name="model" minOccurs="0" maxOccurs="1" type="tns:entityAttrs"/>
+			<element name="vo" type="tns:entityAttrs" minOccurs="0" maxOccurs="1"/>
+			<element name="mapper" type="tns:classAttrs" minOccurs="0" maxOccurs="1"/>
+			<element name="xml" type="tns:xmlAttrs" minOccurs="0" maxOccurs="1"/>
+			<element name="service" type="tns:classAttrs" minOccurs="0" maxOccurs="1"/>
+			<element name="controller" type="tns:classAttrs" minOccurs="0" maxOccurs="1"/>
+		</sequence>
+	</complexType>
+
+	<!-- 定义tables标签下的元素 -->
+	<complexType name="tables">
+		<sequence>
+			<element name="table" type="tns:tableAttrs" minOccurs="1"
+				maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+
+	<!-- 定义table标签的属性 -->
+	<complexType name="tableAttrs">
+		<attribute name="tableName" type="string" use="required"></attribute>
+		<attribute name="primaryKey" type="string" default="id"></attribute>
+	</complexType>
+	
+	<!-- 抽取公共属性 -->
+	<attributeGroup name="common">
+		<attribute name="targetPackage" type="string"
+			default="org.spirit.mapper.generate.example"></attribute>
+		<attribute name="objectNameSuffix" type="string" default=""></attribute>
+	</attributeGroup>
+	
+	<!-- 一般类属性 -->
+	<complexType name="classAttrs">
+		<attributeGroup ref="tns:common"></attributeGroup>
+		<attribute name="extend" type="string" default=""></attribute>
+	</complexType>
+	
+	<!-- xml模块属性 -->
+	<complexType name="xmlAttrs">
+		<attributeGroup ref="tns:common"></attributeGroup>
+	</complexType>
+	
+	<!-- 实体类属性 -->
+	<complexType name="entityAttrs">
+		<attributeGroup ref="tns:common"></attributeGroup>
+		<attribute name="extend" type="string" default=""></attribute>
+		<attribute name="serializable" type="boolean" default="false"></attribute>
+		<attribute name="rejectAttributes" type="string" default=""></attribute>
+	</complexType>
+</schema>

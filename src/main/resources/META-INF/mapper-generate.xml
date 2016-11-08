@@ -2,7 +2,7 @@
 <generate xmlns="http://www.spirit.org/mapper-generate-1.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.spirit.org/mapper-generate-1.0
- https://raw.githubusercontent.com/dqqiu/mapper-generate/master/src/main/resources/META-INF/mapper-generate-1.0.xsd">
+ https://raw.githubusercontent.com/dqqiu/mapper-generate/master/other/xsd/mapper-generate-1.0.xsd">
 	<database>
 		<driver>com.mysql.jdbc.Driver</driver>
 		<url>jdbc:mysql://127.0.0.1:3306/dictionary</url>
