@@ -1,10 +1,10 @@
-package ${modules['mapper'].targetPackage};
+package ${modules['service'].targetPackage};
 
 import java.util.List;
 import ${modules['model'].targetPackage}.${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix};
 import ${modules['vo'].targetPackage}.${table.getFirstLetterUpperName()}${modules['vo'].objectNameSuffix};
-<#if (modules['mapper'].extend)??>
-import ${modules['mapper'].extend};
+<#if (modules['service'].extend)??>
+import ${modules['service'].extend};
 </#if>
 
 /**
@@ -12,7 +12,7 @@ import ${modules['mapper'].extend};
  * @created by mapper-generate-1.0
  * @opensource https://www.github.com/dqqiu/mapper-generate
  */
-public interface ${table.getFirstLetterUpperName()}${modules['mapper'].objectNameSuffix}<#if (modules['mapper'].extend)??> extends ${(modules['mapper'].extend)?substring((modules['mapper'].extend?last_index_of('.')) + 1)}</#if> {
+public interface ${table.getFirstLetterUpperName()}${modules['service'].objectNameSuffix}<#if (modules['service'].extend)??> extends ${(modules['service'].extend)?substring((modules['service'].extend?last_index_of('.')) + 1)}</#if> {
   int insert(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix});
   
   int insertBySelective(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix});
