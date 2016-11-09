@@ -18,11 +18,13 @@ public class ModuleMeta {
   private String targetPath;
   /** 生成对象的名称后缀 */
   private String objectNameSuffix;
-  private String serializable;
+  private String serializable = "false";
   private String extend;
   private String rejectAttributes;
+  /** Service层实现类特有属性，标识是否需要@Override注解 */
+  private String hasOverride = "false";
   /** Controller模块特有属性 */
-  private String controllerAnnotation;
+  private String controllerAnnotation = "org.springframework.web.bind.annotation.RestController";
 
   public String getTargetPackage() {
     return targetPackage;
@@ -78,6 +80,14 @@ public class ModuleMeta {
 
   public void setControllerAnnotation(String controllerAnnotation) {
     this.controllerAnnotation = controllerAnnotation;
+  }
+
+  public String getHasOverride() {
+    return hasOverride;
+  }
+
+  public void setHasOverride(String hasOverride) {
+    this.hasOverride = hasOverride;
   }
   
 }

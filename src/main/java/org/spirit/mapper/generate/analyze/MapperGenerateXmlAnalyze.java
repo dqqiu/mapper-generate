@@ -128,7 +128,15 @@ public class MapperGenerateXmlAnalyze {
           }
           if("controller".equals(eleName)){
             String controllerAnnotation = ele.attributeValue("controllerAnnotation");
-            moduleMeta.setControllerAnnotation(controllerAnnotation);
+            if(StringUtils.isNotEmpty(controllerAnnotation)){
+              moduleMeta.setControllerAnnotation(controllerAnnotation);
+            }
+          }
+          if("service".equals(eleName)){
+            String hasOverride = ele.attributeValue("hasOverride");
+            if(StringUtils.isNotEmpty(hasOverride)){
+              moduleMeta.setHasOverride(hasOverride);
+            }
           }
 
           list.add(moduleMeta);

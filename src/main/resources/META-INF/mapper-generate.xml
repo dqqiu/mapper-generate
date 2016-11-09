@@ -10,18 +10,23 @@
 		<password>root</password>
 	</database>
 	<modules>
-		<model targetPackage="org.spirit.mapper.generate.model" objectNameSuffix="Model" />
-		<vo targetPackage="org.spirit.mapper.generate.vo" objectNameSuffix="VO" serializable="true" />
-		<mapper targetPackage="org.spirit.mapper.generate.mapper" />
-		<xml targetPackage="org.spirit.mapper.generate.xml" />
-		<service targetPackage="org.spirit.mapper.generate.service" />
-		<controller targetPackage="org.spirit.mapper.generate.controller" controllerAnnotation="org.springframework.web.bind.annotation.Controller"/> 
+		<model targetPackage="org.spirit.together.dictionary.api.model" />
+		<vo targetPackage="org.spirit.together.dictionary.api.vo" serializable="true" />
+		<mapper targetPackage="org.spirit.together.dictionary.api.mapper" />
+		<xml targetPackage="org.spirit.together.dictionary.api.xml" />
+		<service targetPackage="org.spirit.together.dictionary.api.service" />
+		<controller targetPackage="org.spirit.together.dictionary.rest.controller" /> 
 		<!--
 		-->
 	</modules>
 	<tables>
-		<table tableName="dict_state" primaryKey="cd,dscp"/>
-		<table tableName="dict_province"  primaryKey="id" />
+		<table tableName="dict_state" primaryKey="cd"/>
+		<table tableName="dict_province"  primaryKey="cd" />
+		<table tableName="dict_city" primaryKey="cd"/>
+		<table tableName="dict_district"  primaryKey="cd" />
+		<table tableName="dict_data" primaryKey="cd"/>
+		<table tableName="dict_type"  primaryKey="cd" />
+		
 	</tables>
 	<output>D:/generate/code</output>
 </generate>
