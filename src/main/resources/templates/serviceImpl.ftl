@@ -19,60 +19,60 @@ import ${modules['service'].targetPackage}.${table.getFirstLetterUpperName()}${m
 public class ${table.getFirstLetterUpperName()}${modules['service'].objectNameSuffix}Impl<#if (modules['service'].extend)??> extends ${(modules['service'].extend)?substring((modules['service'].extend?last_index_of('.')) + 1)}</#if> implements ${table.getFirstLetterUpperName()}${modules['service'].objectNameSuffix} {
   
   @Autowired
-  private ${table.getFirstLetterUpperName()}${modules['service'].objectNameSuffix} ${table.camelName}${modules['service'].objectNameSuffix};
+  private ${table.getFirstLetterUpperName()}${modules['mapper'].objectNameSuffix} ${table.camelName}${modules['mapper'].objectNameSuffix};
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int insert(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.insert(${table.camelName}${modules['model'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.insert(${table.camelName}${modules['model'].objectNameSuffix});
   }
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int insertBySelective(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.insertBySelective(${table.camelName}${modules['model'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.insertBySelective(${table.camelName}${modules['model'].objectNameSuffix});
   }
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public ${table.getFirstLetterUpperName()} getByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map>${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.getByPrimaryKey(<#list table.primaryKey as key>${key}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.getByPrimaryKey(<#list table.primaryKey as key>${key}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
   }
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public List<${table.getFirstLetterUpperName()}> getByCondition(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.getByCondition(${table.camelName}${modules['model'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.getByCondition(${table.camelName}${modules['model'].objectNameSuffix});
   }
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public List<${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix}> getByCondition(${table.getFirstLetterUpperName()}${modules['vo'].objectNameSuffix} ${table.camelName}${modules['vo'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.getByCondition(${table.camelName}${modules['vo'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.getByCondition(${table.camelName}${modules['vo'].objectNameSuffix});
   }
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int getCountByCondition(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.getCountByCondition(${table.camelName}${modules['model'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.getCountByCondition(${table.camelName}${modules['model'].objectNameSuffix});
   }
   
-  @Override
-  public int getCountCondition(${table.getFirstLetterUpperName()}${modules['vo'].objectNameSuffix} ${table.camelName}${modules['vo'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.getCountByCondition(${table.camelName}${modules['vo'].objectNameSuffix});
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
+  public int getCountByCondition(${table.getFirstLetterUpperName()}${modules['vo'].objectNameSuffix} ${table.camelName}${modules['vo'].objectNameSuffix}) {
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.getCountByCondition(${table.camelName}${modules['vo'].objectNameSuffix});
   }
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int updateByPrimaryKey(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.updateByPrimaryKey(${table.camelName}${modules['model'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.updateByPrimaryKey(${table.camelName}${modules['model'].objectNameSuffix});
   }
   
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int deleteByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map>${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.deleteByPrimaryKey(<#list table.primaryKey as key>${key}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.deleteByPrimaryKey(<#list table.primaryKey as key>${key}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
   }
 
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int deleteByCondition(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.deleteByCondition(${table.camelName}${modules['model'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.deleteByCondition(${table.camelName}${modules['model'].objectNameSuffix});
   }
 
-  @Override
+  <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int deleteByCondition(${table.getFirstLetterUpperName()}${modules['vo'].objectNameSuffix} ${table.camelName}${modules['vo'].objectNameSuffix}) {
-    return ${table.camelName}${modules['service'].objectNameSuffix}.deleteByCondition(${table.camelName}${modules['vo'].objectNameSuffix});
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.deleteByCondition(${table.camelName}${modules['vo'].objectNameSuffix});
   }
 }
