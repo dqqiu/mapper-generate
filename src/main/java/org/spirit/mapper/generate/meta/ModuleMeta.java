@@ -21,6 +21,8 @@ public class ModuleMeta {
   private String serializable;
   private String extend;
   private String rejectAttributes;
+  /** Controller模块特有属性 */
+  private String controllerAnnotation;
 
   public String getTargetPackage() {
     return targetPackage;
@@ -69,7 +71,13 @@ public class ModuleMeta {
   public void setRejectAttributes(String rejectAttributes) {
     this.rejectAttributes = rejectAttributes;
   }
-  
-  
+
+  public String getControllerAnnotation() {
+    return controllerAnnotation;
+  }
+
+  public void setControllerAnnotation(String controllerAnnotation) {
+    this.controllerAnnotation = controllerAnnotation;
+  }
   
 }

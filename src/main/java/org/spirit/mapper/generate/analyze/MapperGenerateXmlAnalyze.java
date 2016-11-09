@@ -126,6 +126,10 @@ public class MapperGenerateXmlAnalyze {
               moduleMeta.setRejectAttributes(rejectAttributes);
             }
           }
+          if("controller".equals(eleName)){
+            String controllerAnnotation = ele.attributeValue("controllerAnnotation");
+            moduleMeta.setControllerAnnotation(controllerAnnotation);
+          }
 
           list.add(moduleMeta);
           moduleMetaMap.put(eleName, moduleMeta);

@@ -122,5 +122,28 @@ public class TableMeta {
   public String getFirstLetterUpperName(){
     return StringUtils.firstLetterToUpper(StringUtils.camel(this.name));
   }
+  
+  /**
+   *  @Description	: qiudequan 获取字段和java类型映射Map集合
+   *  @param          : @return
+   *  @return 		: Map<String,String>
+   *  @Creation Date  : 2016年11月9日 上午10:23:15 
+   *  @Author         : qiudequan
+   */
+  public Map<String, String> getFieldJavaTypeMap(){
+    Map<String, String> fieldJavaTypeMap = new HashMap<>();
+    if(fields != null && fields.size() != 0){
+      for (FieldMeta fieldMeta : fields) {
+        String fieldName = fieldMeta.getName();
+        String fieldType = fieldMeta.getType();
+        MysqlTypeEnum mysqlTypeEnum = MysqlTypeEnum.get(fieldType);
+        if(mysqlTypeEnum != null){
+          String javaPackage = mysqlTypeEnum.getJavaPackage();
+          fieldJavaTypeMap.put(fieldName, javaPackage);
+        }
+      }
+    }
+    return fieldJavaTypeMap;
+  }
 
 }

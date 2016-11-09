@@ -14,7 +14,6 @@ import org.spirit.mapper.generate.utils.FreemarkerUtils;
 
 import freemarker.ext.beans.BeansWrapper;
 import freemarker.template.TemplateHashModel;
-import freemarker.template.TemplateModel;
 
 /**
  * @Project       : mapper-generate
@@ -61,6 +60,10 @@ public class MapperGenerate {
           String ftlName = key + ".ftl";
           String fileName = "/" + moduleMeta.getTargetPath() + "/" + tableMeta.getFirstLetterUpperName() + nameSuffix + ModuleElementEnum.getFileSuffix(key);
           FreemarkerUtils.printFile(ftlName, root, fileName, generateMeta.getOutputPath(), "");
+          if("service".equals(key)){
+            String implFileName = "/" + moduleMeta.getTargetPath() + "/impl/" + tableMeta.getFirstLetterUpperName() + nameSuffix + "Impl" + ModuleElementEnum.getFileSuffix(key);
+            FreemarkerUtils.printFile(key + "Impl.ftl", root, implFileName, generateMeta.getOutputPath(), "");
+          }
         }
       }
     } catch (Exception e) {

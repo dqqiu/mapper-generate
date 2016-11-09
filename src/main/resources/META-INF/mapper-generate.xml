@@ -12,11 +12,12 @@
 	<modules>
 		<model targetPackage="org.spirit.mapper.generate.model" objectNameSuffix="Model" />
 		<vo targetPackage="org.spirit.mapper.generate.vo" objectNameSuffix="VO" serializable="true" />
-		<mapper targetPackage="org.spirit.mapper.generate.mapper" extend="org.spirit.mapper.generate.mapper.BaseMapper"/>
-		<xml targetPackage="org.spirit.mapper.generate.xml"/>
+		<mapper targetPackage="org.spirit.mapper.generate.mapper" />
+		<xml targetPackage="org.spirit.mapper.generate.xml" />
+		<service targetPackage="org.spirit.mapper.generate.service" />
+		<controller targetPackage="org.spirit.mapper.generate.controller" controllerAnnotation="org.springframework.web.bind.annotation.Controller"/> 
 		<!--
-		<service targetPackage="org.spirit.mapper.generate.service"></service>
-		<controller targetPackage="org.spirit.mapper.generate.controller"></controller> -->
+		-->
 	</modules>
 	<tables>
 		<table tableName="dict_state" primaryKey="cd,dscp"/>
