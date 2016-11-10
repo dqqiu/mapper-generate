@@ -12,59 +12,58 @@
 		<password>root</password>
 	</database>
 	<!-- 
-		模块信息配置，为顺序标签，需要按照如下顺序配置，否则将会报错
-		标签下公用属性：
-			targetPackage：生成的包路径
-			objectNameSuffix：生成的对象名称后缀，如：数据表为dict_state,此属性配置为Model，则生成的对象名称为DictStateModel,其他同理
-				此属性各个模块的默认值===>> model(""),vo("Vo"),mapper("Mapper"),
-							  			   xml("Mapper")[指的是生成的mybatis映射xml文件的文件名后缀],
-							  			   service("Service"),controller("Controller")
-							                   		     
-			extend：需要继承的类全名(含包名)
+	  模块信息配置，为顺序标签，需要按照如下顺序配置，否则将会报错
+	    标签下公用属性：
+	    targetPackage：生成的包路径
+		objectNameSuffix：生成的对象名称后缀，如：数据表为dict_state,此属性配置为Model，则生成的对象名称为DictStateModel,其他同理
+		    此属性各个模块的默认值===>>> model(""),vo("Vo"),mapper("Mapper"),
+							  		  xml("Mapper")[指的是生成的mybatis映射xml文件的文件名后缀],
+							  		  service("Service"),controller("Controller")
+		extend：需要继承的类全名(含包名)
 	 -->
 	<modules>
 		<!-- 
-			Model模块：生成实体类 
-			特殊属性：
-				rejectAttributes：生成代码时，忽略字段(暂未实现)
-				serializable：是否需要实现序列化，true/false
+		  Model模块：生成实体类 
+		      特殊属性：
+		    rejectAttributes：生成代码时，忽略字段(暂未实现)
+			serializable：是否需要实现序列化，true/false
 		-->
 		<model targetPackage="org.spirit.together.dictionary.api.model" />
 		<!-- 
-			VO模块：生成视图实体类(暴露给视图层的对象，可用于远程传输[实现序列化])
-			特殊属性：同model模块
+		  VO模块：生成视图实体类(暴露给视图层的对象，可用于远程传输[实现序列化])
+		    特殊属性：同model模块
 		-->
 		<vo targetPackage="org.spirit.together.dictionary.api.vo" serializable="true" />
 		<!-- 
-			Mapper模块：给Mybatis扫描的Mapper层
-			特殊属性：无	
+		  Mapper模块：给Mybatis扫描的Mapper层
+		    特殊属性：无	
 		 -->
 		<mapper targetPackage="org.spirit.together.dictionary.api.mapper" />
 		<!-- 
-			XML模块：生成Mybatis映射xml文件
-			特殊属性：无
+		  XML模块：生成Mybatis映射xml文件
+		    特殊属性：无
 		 -->
 		<xml targetPackage="org.spirit.together.dictionary.api.xml" />
 		<!-- 
-			Service模块：生成Service层
-			特殊属性：
-				hasOverride：service的实现层实现的方法是否需要@Override注解
+		  Service模块：生成Service层
+		    特殊属性：
+		    hasOverride：service的实现层实现的方法是否需要@Override注解
 		 -->
 		<service targetPackage="org.spirit.together.dictionary.api.service" />
 		<!-- 
-			Controller属性：生成Controller
-			特殊属性：
-				controllerAnnotation：controller注解全名[含包名](org.springframework.web.bind.annotation.RestController[默认]/org.springframework.web.bind.annotation.Controller)
+		  Controller属性：生成Controller
+		    特殊属性：
+		    controllerAnnotation：controller注解全名[含包名](org.springframework.web.bind.annotation.RestController[默认]/org.springframework.web.bind.annotation.Controller)
 		 -->
 		<controller targetPackage="org.spirit.together.dictionary.rest.controller" /> 
 	</modules>
 	<!-- 要生成代码的数据库表 -->
 	<tables>	
 		<!-- 
-			table：需要生成代码的数据表
-			属性：
-				tableName: 数据库表名
-				primaryKey: 表主键，默认值id，主键非id字段的需自行指定
+		  table：需要生成代码的数据表
+		    属性：
+			tableName: 数据库表名
+			primaryKey: 表主键，默认值id，主键非id字段的需自行指定
 		 -->
 		<table tableName="dict_state" primaryKey="cd"/>
 		<table tableName="dict_province"  primaryKey="cd" />
