@@ -50,13 +50,11 @@ public class MapperGenerate {
           TemplateHashModel staticModels = beansWrapper.getStaticModels();
           TemplateHashModel templateModel = (TemplateHashModel) staticModels.get("org.spirit.mapper.generate.utils.StringUtils");
           ModuleMeta moduleMeta = modulesMap.get(key);
-//          root.put("targetPackage", moduleMeta.getTargetPackage());
           root.put("table", tableMeta);
           root.put("modules", modulesMap);
           root.put("StringUtils", templateModel);
           
           String nameSuffix = ModuleElementEnum.getNameSuffix(key);
-//          root.put("nameSuffix", nameSuffix);
           String ftlName = key + ".ftl";
           String fileName = "/" + moduleMeta.getTargetPath() + "/" + tableMeta.getFirstLetterUpperName() + nameSuffix + ModuleElementEnum.getFileSuffix(key);
           FreemarkerUtils.printFile(ftlName, root, fileName, generateMeta.getOutputPath(), "");
