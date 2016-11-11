@@ -33,7 +33,7 @@ public class ${table.getFirstLetterUpperName()}${modules['service'].objectNameSu
   
   <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public ${table.getFirstLetterUpperName()} getByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map>${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>) {
-    return ${table.camelName}${modules['mapper'].objectNameSuffix}.getByPrimaryKey(<#list table.primaryKey as key>${key}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.getByPrimaryKey(<#list table.primaryKey as key>${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
   }
   
   <#if modules['service'].hasOverride == 'true'>@Override</#if>
@@ -63,7 +63,7 @@ public class ${table.getFirstLetterUpperName()}${modules['service'].objectNameSu
   
   <#if modules['service'].hasOverride == 'true'>@Override</#if>
   public int deleteByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map>${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>) {
-    return ${table.camelName}${modules['mapper'].objectNameSuffix}.deleteByPrimaryKey(<#list table.primaryKey as key>${key}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
+    return ${table.camelName}${modules['mapper'].objectNameSuffix}.deleteByPrimaryKey(<#list table.primaryKey as key>${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>, </#if></#list>);
   }
 
   <#if modules['service'].hasOverride == 'true'>@Override</#if>
