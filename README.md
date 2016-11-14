@@ -77,11 +77,21 @@ Mybatis代码生成,目前只支持mysql
 		<table tableName="dict_province"  primaryKey="cd" />
 		<table tableName="dict_city" primaryKey="cd"/>
 		<table tableName="dict_district"  primaryKey="cd" />
-		<table tableName="dict_data" primaryKey="cd"/>
-		<table tableName="dict_type"  primaryKey="cd" />
+		<table tableName="dict_data" primaryKey="cd,dict_data_type_cd"/>
+		<table tableName="dict_data_type"  primaryKey="cd" />
 	</tables>
 	<!-- 输出生成的代码的路径 -->
 	<output>D:/generate/code</output>
+	<!-- sql-java类型映射 -->
+	<typeMapping>
+		<!-- 
+			mapping：具体的sql-java类型映射 
+			属性：
+				sqlType：数据库类型
+				javaType：java类型[带包名]
+		-->
+		<mapping sqlType="datetime" javaType="java.util.Date" />
+	</typeMapping>
 </generate>
 ```
 
