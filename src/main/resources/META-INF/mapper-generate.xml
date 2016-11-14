@@ -76,6 +76,12 @@
 	<output>D:/generate/code</output>
 	<!-- sql-java类型映射 -->
 	<typeMapping>
+		<!-- 
+			mapping：具体的sql-java类型映射 
+			属性：
+				sqlType：数据库类型
+				javaType：java类型[带包名]
+		-->
 		<mapping sqlType="datetime" javaType="java.util.Date" />
 	</typeMapping>
 </generate>
