@@ -18,7 +18,7 @@ public enum MysqlTypeEnum {
   BLOB("BLOB", "byte[]", "java.lang.byte", "长文本类型"),
   INT("INT", "Integer", "java.lang.Integer", "整型"), 
   INTEGER("INTEGER", "Long", "java.lang.Long", "整型"), 
-  TINYINT("TINYINT", "Integer", "java.lang.Integer", "整型"), 
+  TINYINT("TINYINT", "Byte", "java.lang.Byte", "整型"), 
   SMALLINT("SMALLINT", "Integer", "java.lang.Integer", "整型"),
   MEDIUMINT("MEDIUMINT", "Integer", "java.lang.Integer", "整型"),
   BIGINT("BIGINT", "Long", "java.lang.Long", "整型"),

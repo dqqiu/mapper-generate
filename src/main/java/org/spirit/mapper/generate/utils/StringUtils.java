@@ -140,4 +140,19 @@ public class StringUtils {
     }
     return str.replaceAll(sourceStr, replaceStr);
   }
+  
+  /**
+   *  @Description	: qiudequan 获取字符串中最后一个"."后的字符
+   *  @param          : @param source
+   *  @param          : @return
+   *  @return 		: String
+   *  @Creation Date  : 2016年11月11日 下午4:10:55 
+   *  @Author         : qiudequan
+   */
+  public static String getStrAfterLastestPoint(String source) {
+    if(isEmpty(source)) {
+      return "";
+    }
+    return source.substring(source.lastIndexOf(".") + 1);
+  }
 }

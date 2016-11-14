@@ -29,6 +29,8 @@ public class GenerateMeta {
   private List<TableMeta> tables;
   /** 代码生成路径 */
   private String outputPath;
+  /** 类型映射Map */
+  private Map<String, String> typeMap;
   public JDBCMeta getJdbcMeta() {
     return jdbcMeta;
   }
@@ -55,6 +57,12 @@ public class GenerateMeta {
     this.outputPath = outputPath;
   }
   
+  public Map<String, String> getTypeMap() {
+    return typeMap;
+  }
+  public void setTypeMap(Map<String, String> typeMap) {
+    this.typeMap = typeMap;
+  }
   public Map<String, ModuleMeta> getModulesMap() {
     return modulesMap;
   }

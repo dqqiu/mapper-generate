@@ -11,6 +11,7 @@
 				<element name="modules" type="tns:modules" maxOccurs="1" minOccurs="1"/>
 				<element name="tables" type="tns:tables" maxOccurs="1" minOccurs="1"/>
 				<element name="output" type="string" maxOccurs="1" minOccurs="1"/>
+				<element name="typeMapping" type="tns:typeMapping" maxOccurs="1" minOccurs="0"></element>
 			</sequence>
 		</complexType>
 	</element>
@@ -51,6 +52,12 @@
 		<attribute name="primaryKey" type="string" default="id"></attribute>
 	</complexType>
 	
+	<complexType name="typeMapping">
+		<sequence>
+			<element name="mapping" type="tns:mappingAttrs" minOccurs="0" maxOccurs="unbounded"></element>
+		</sequence>
+	</complexType>
+	
 	<!-- 抽取公共属性 -->
 	<attributeGroup name="common">
 		<attribute name="targetPackage" type="string"
@@ -86,5 +93,11 @@
 		<attributeGroup ref="tns:common"></attributeGroup>
 		<attribute name="serializable" type="boolean" default="false"></attribute>
 		<attribute name="rejectAttributes" type="string"></attribute>
+	</complexType>
+	
+	<!-- 类型映射属性 -->
+	<complexType name="mappingAttrs">
+		<attribute name="sqlType" type="string"></attribute>
+		<attribute name="javaType" type="string"></attribute>
 	</complexType>
 </schema>

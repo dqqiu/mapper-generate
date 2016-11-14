@@ -55,6 +55,7 @@ public class MapperGenerateXmlAnalyze {
       Element dbElement = root.element("database");
       JDBCMeta jdbcMeta = getJDBCMeta(dbElement);            
       generateMeta.setJdbcMeta(jdbcMeta);
+      Map<String, String> typeMap = null;
       for (int i = 0; i < elements.size(); i++) {
         Element element = (Element)elements.get(i);
         if(element != null){
@@ -68,9 +69,19 @@ public class MapperGenerateXmlAnalyze {
             case "output":
               generateMeta.setOutputPath(getElementValue(element));
               break;
+            case "typeMapping":
+              typeMap = handlerTypeMapping(element, generateMeta);
+              break;
             default:
               break;
           }
+        }
+      }
+      List<TableMeta> tables = generateMeta.getTables();
+      if(typeMap != null && ( tables != null && !tables.isEmpty())){
+        for (TableMeta tableMeta : tables) {
+          tableMeta.setTypeMap(typeMap);
+          tableMeta.setTypeMapSize(typeMap.size());
         }
       }
       generateMeta.validate();
@@ -84,6 +95,35 @@ public class MapperGenerateXmlAnalyze {
     } catch (Exception e) {
       logger.error("An error occurred at mapper generate");
       e.printStackTrace();
+    }
+    return null;
+  }
+
+  /**
+   *  @Description	: qiudequan 处理sql-java类型映射
+   *  @param          : @param element
+   *  @param          : @param generateMeta
+   *  @return 		: void
+   *  @Creation Date  : 2016年11月11日 下午2:48:49 
+   *  @Author         : qiudequan
+   */
+  private static Map<String, String> handlerTypeMapping(Element element, GenerateMeta generateMeta) {
+    if(element == null) {
+      return null;
+    } 
+    List elements = element.elements("mapping");
+    if(elements != null && !elements.isEmpty()) {
+      Map<String, String> typeMap = new HashMap<>();
+      for (Object object : elements) {
+        Element ele = (Element) object;
+        if(ele == null) {
+          continue;
+        }
+        String sqlType = ele.attributeValue("sqlType");
+        String javaType = ele.attributeValue("javaType");
+        typeMap.put(sqlType.toUpperCase(), javaType);
+      }
+      return typeMap;
     }
     return null;
   }
@@ -157,7 +197,6 @@ public class MapperGenerateXmlAnalyze {
    *  @Author         : qiudequan
    */
   private static void handlerTableMeta(Element element, GenerateMeta generateMeta){
-    List<String> tableNames = new ArrayList<>();
     Map<String, String> tableKeys = new HashMap<>();
     Iterator elementIterator = element.elementIterator();
     // 解析xml节点数据
@@ -167,7 +206,6 @@ public class MapperGenerateXmlAnalyze {
         String tableName = ele.attributeValue("tableName");
         String primaryKeys = ele.attributeValue("primaryKey");
         if(StringUtils.isNotEmpty(tableName)){
-          tableNames.add(tableName);
           tableKeys.put(tableName, primaryKeys);
         }
       }
@@ -245,74 +283,6 @@ public class MapperGenerateXmlAnalyze {
     return tableNames;
   }
 
-  /**
-   *  @Description  : qiudequan 解析表和字段
-   *  @param          : tableNames
-   *  @return       : List<TableMeta>
-   *  @Creation Date  : 2016年11月3日 下午1:35:25 
-   *  @Author         : qiudequan
-   */
-  public static List<TableMeta> analyzeTables(List<String> tableNames, JDBCMeta jdbcMeta){
-    JDBCUtils jdbcUtils = new JDBCUtils(jdbcMeta);
-    jdbcUtils.connect();
-    Connection connection = jdbcUtils.getConnection();
-    DatabaseMetaData metaData = null;
-    ResultSet tableSet = null;
-    ResultSet columnSet = null;
-    ResultSet executeQuery = null;
-    try {
-      metaData = connection.getMetaData();
-      tableSet = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
-      List<TableMeta> tableMetas = new ArrayList<>();
-      while(tableSet.next()){
-        String tableName = tableSet.getString("TABLE_NAME");
-        String tableComment = tableSet.getString("REMARKS");
-        TableMeta tableMeta = null;
-        if(tableNames.contains(tableName)){
-          tableMeta = new TableMeta();
-          tableMeta.setName(tableName);
-          tableMeta.setTableComment(tableComment);
-          tableMeta.setCamelName(StringUtils.camel(tableName));
-          columnSet = metaData.getColumns(null, "%", tableName, "%");
-          List<FieldMeta> fields = new ArrayList<>();
-          FieldMeta fieldMeta;
-          for (int i = 1; columnSet.next(); i++) {
-            String sql = "select * from " + tableName + " where 1 = 2";
-            jdbcUtils.setSql(sql);
-            executeQuery = jdbcUtils.executeQuery();
-            ResultSetMetaData columnMd = executeQuery.getMetaData();
-            fieldMeta = new FieldMeta();
-            String fieldName = columnSet.getString("COLUMN_NAME");
-            String fieldComment = columnSet.getString("REMARKS");
-            String dataType = columnSet.getString("TYPE_NAME");
-            String length = String.valueOf(columnMd.getColumnDisplaySize(i));
-            String digits = columnSet.getString("DECIMAL_DIGITS");
-            String nullable = columnSet.getString("NULLABLE");
-            fieldMeta.setName(fieldName);
-            fieldMeta.setComment(fieldComment);
-            fieldMeta.setType(dataType);
-            fieldMeta.setLength(length);
-            fieldMeta.setDigits(digits);
-            fieldMeta.setNullable(nullable);
-            fields.add(fieldMeta);
-          }
-          tableMeta.setFields(fields);
-          tableMetas.add(tableMeta);
-        }
-      }
-      return tableMetas;
-    } catch (Exception e) {
-      throw new MapperGenerateException("解析表时发生异常", e);
-    } finally {
-      jdbcUtils.closeResultSet(executeQuery);
-      jdbcUtils.closeResultSet(columnSet);
-      jdbcUtils.closeResultSet(tableSet);
-      jdbcUtils.closeConnection();
-      jdbcUtils.clear();
-      jdbcUtils = null;
-    }
-  }
-  
   /**
    *  @Description  : qiudequan 解析表和字段
    *  @param          : tableNames
