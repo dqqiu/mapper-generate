@@ -62,7 +62,7 @@ PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
 		<set>
 		<#list table.fields as field>
 			<if test="${field.camelName} != null and ${field.camelName} != ''">
-				${field.name} = ${r'#{'}${field.camelName}${r'}'}
+				${field.name} = ${r'#{'}${field.camelName}${r'}'},
 			</if>
 		</#list>
 		</set>
