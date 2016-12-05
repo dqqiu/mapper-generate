@@ -38,6 +38,7 @@ public class ${table.getFirstLetterUpperName()}${modules['vo'].objectNameSuffix}
   </#list>
 
   <#list table.fields as field>
+  <#assign key="${field.type}">
 
   public void set${field.firstLetterUpper}(${StringUtils.getStrAfterLastestPoint(table.typeMap[key]!)} ${field.camelName}) {
     this.${field.camelName} = ${field.camelName};
