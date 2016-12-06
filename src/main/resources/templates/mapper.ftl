@@ -2,7 +2,7 @@ package ${modules['mapper'].targetPackage};
 
 import java.util.List;
 
-<#assign isParam="${(table.primaryKey?size > 0)?c}">
+<#assign isParam="${(table.primaryKey?size > 1)?c}">
 <#if isParam == 'true'>
 import org.apache.ibatis.annotations.Param;
 </#if>
@@ -22,7 +22,7 @@ public interface ${table.getFirstLetterUpperName()}${modules['mapper'].objectNam
   
   int insertBySelective(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix});
   
-  ${table.getFirstLetterUpperName()} getByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map><#if isParam == 'true'>@Param("${StringUtils.camel(key)}")</#if> ${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>);
+  ${table.getFirstLetterUpperName()} getByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map><#if isParam == 'true'>@Param("${StringUtils.camel(key)}")</#if>${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>);
   
   List<${table.getFirstLetterUpperName()}> getByCondition(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix});
   
@@ -34,7 +34,7 @@ public interface ${table.getFirstLetterUpperName()}${modules['mapper'].objectNam
   
   int updateByPrimaryKey(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix});
   
-  int deleteByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map><#if isParam == 'true'>@Param("${StringUtils.camel(key)}")</#if> ${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>);
+  int deleteByPrimaryKey(<#list table.primaryKey as key><#list table.getFieldJavaTypeMap()?keys as map><#if key == map><#if isParam == 'true'>@Param("${StringUtils.camel(key)}")</#if>${table.getFieldJavaTypeMap()[key]} ${StringUtils.camel(key)}<#if key_index != (table.primaryKey?size - 1)>,</#if></#if></#list></#list>);
 
   int deleteByCondition(${table.getFirstLetterUpperName()}${modules['model'].objectNameSuffix} ${table.camelName}${modules['model'].objectNameSuffix});
 

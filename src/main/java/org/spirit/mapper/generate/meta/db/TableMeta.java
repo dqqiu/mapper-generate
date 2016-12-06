@@ -21,7 +21,7 @@ import org.spirit.mapper.generate.utils.StringUtils;
  */
 public class TableMeta {
   /** 主键 */
-  private String[] primaryKey;
+  private String[] primaryKey = {"id"};
   /** 表名 */
   private String name;
 

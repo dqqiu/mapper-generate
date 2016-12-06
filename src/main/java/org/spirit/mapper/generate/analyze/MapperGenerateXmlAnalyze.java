@@ -310,10 +310,12 @@ public class MapperGenerateXmlAnalyze {
         if(tableKeys.containsKey(tableName)){
           String primaryKey = tableKeys.get(tableName);
           tableMeta = new TableMeta();
-          if(StringUtils.isNotEmpty(primaryKey) && primaryKey.contains(",")){
-            tableMeta.setPrimaryKey(primaryKey.split(","));
-          } else {
-            tableMeta.setPrimaryKey(new String[]{primaryKey});
+          if(StringUtils.isNotEmpty(primaryKey)){
+            if(primaryKey.contains(",")){
+              tableMeta.setPrimaryKey(primaryKey.split(","));
+            } else {
+              tableMeta.setPrimaryKey(new String[]{primaryKey});
+            }
           }
           tableMeta.setName(tableName);
           tableMeta.setTableComment(tableComment);

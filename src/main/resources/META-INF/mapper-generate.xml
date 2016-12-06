@@ -7,7 +7,7 @@
  	<!-- 数据库连接信息 -->
 	<database>
 		<driver>com.mysql.jdbc.Driver</driver>
-		<url>jdbc:mysql://127.0.0.1:3306/dictionary</url>
+		<url>jdbc:mysql://127.0.0.1:3306/security</url>
 		<user>root</user>
 		<password>root</password>
 	</database>
@@ -65,12 +65,7 @@
 			tableName: 数据库表名
 			primaryKey: 表主键，默认值id，主键非id字段的需自行指定
 		 -->
-		<table tableName="dict_state" primaryKey="cd"/>
-		<table tableName="dict_province"  primaryKey="cd" />
-		<table tableName="dict_city" primaryKey="cd"/>
-		<table tableName="dict_district"  primaryKey="cd" />
-		<table tableName="dict_data" primaryKey="cd,dict_data_type_cd"/>
-		<table tableName="dict_data_type"  primaryKey="cd" />
+		<table tableName="sys_user"/>
 	</tables>
 	<!-- 输出生成的代码的路径 -->
 	<output>D:/generate/code</output>
