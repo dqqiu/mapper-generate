@@ -63,7 +63,7 @@
 		  table：需要生成代码的数据表
 		    属性：
 			tableName: 数据库表名
-			primaryKey: 表主键，默认值id，主键非id字段的需自行指定
+			primaryKey: 表主键，多个使用","(英文)隔开，不填写时自动读取指定表中已设置的主键
 		 -->
 		<table tableName="sys_user"/>
 	</tables>

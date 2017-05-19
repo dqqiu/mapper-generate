@@ -30,6 +30,7 @@ import org.spirit.mapper.generate.meta.db.TableMeta;
 import org.spirit.mapper.generate.utils.BeanFactoryUtils;
 import org.spirit.mapper.generate.utils.JDBCUtils;
 import org.spirit.mapper.generate.utils.StringUtils;
+import org.springframework.util.CollectionUtils;
 
 @SuppressWarnings(value = {"unused", "rawtypes"})
 public class MapperGenerateXmlAnalyze {
@@ -87,14 +88,11 @@ public class MapperGenerateXmlAnalyze {
       generateMeta.validate();
       return generateMeta;
     } catch (DocumentException e) {
-      logger.error("An error occurred while reading the XML file.[XML File:{}]", file.getAbsolutePath());
-      e.printStackTrace();
+      logger.error("An error occurred while reading the XML file.[XML File:{}]", file.getAbsolutePath(), e);
     } catch (MapperGenerateException e) {
-      logger.error("An error occurred at mapper generate");
-      e.printStackTrace();
+      logger.error("An error occurred at mapper generate", e);
     } catch (Exception e) {
-      logger.error("An error occurred at mapper generate");
-      e.printStackTrace();
+      logger.error("An error occurred at mapper generate", e);
     }
     return null;
   }
@@ -298,6 +296,7 @@ public class MapperGenerateXmlAnalyze {
     ResultSet tableSet = null;
     ResultSet columnSet = null;
     ResultSet executeQuery = null;
+    ResultSet pkResultSet = null;
     try {
       metaData = connection.getMetaData();
       tableSet = metaData.getTables(null, "%", "%", new String[]{"TABLE"});
@@ -312,14 +311,29 @@ public class MapperGenerateXmlAnalyze {
           tableMeta = new TableMeta();
           if(StringUtils.isNotEmpty(primaryKey)){
             if(primaryKey.contains(",")){
+              String[] pks = primaryKey.split(",");
+              for (int i = 0, size = pks.length; i < size; i++) {
+                pks[i] = pks[i].toLowerCase();
+              }
               tableMeta.setPrimaryKey(primaryKey.split(","));
             } else {
-              tableMeta.setPrimaryKey(new String[]{primaryKey});
+              tableMeta.setPrimaryKey(new String[]{primaryKey.toLowerCase()});
+            }
+          } else {
+            pkResultSet = metaData.getPrimaryKeys(connection.getCatalog().toUpperCase(), 
+                metaData.getUserName().toUpperCase(), tableName.toUpperCase());
+            List<String> pkList = new ArrayList<>();
+            while(pkResultSet.next()) {
+              String pk = pkResultSet.getString("COLUMN_NAME");
+              pkList.add(pk.toLowerCase());
+            }
+            if(!CollectionUtils.isEmpty(pkList)) {
+              tableMeta.setPrimaryKey(pkList.toArray(new String[]{}));
             }
           }
           tableMeta.setName(tableName);
           tableMeta.setTableComment(tableComment);
-          tableMeta.setCamelName(StringUtils.camel(tableName));
+          tableMeta.setCamelName(StringUtils.camel(tableName.toLowerCase()));
           columnSet = metaData.getColumns(null, "%", tableName, "%");
           List<FieldMeta> fields = new ArrayList<>();
           FieldMeta fieldMeta;
@@ -349,11 +363,13 @@ public class MapperGenerateXmlAnalyze {
       }
       return tableMetas;
     } catch (Exception e) {
+      logger.error("An exception appears in the analysis tables.", e);
       throw new MapperGenerateException("解析表时发生异常", e);
     } finally {
       jdbcUtils.closeResultSet(executeQuery);
       jdbcUtils.closeResultSet(columnSet);
       jdbcUtils.closeResultSet(tableSet);
+      jdbcUtils.closeResultSet(pkResultSet);
       jdbcUtils.closeConnection();
       jdbcUtils.clear();
       jdbcUtils = null;

@@ -21,7 +21,7 @@ import org.spirit.mapper.generate.utils.StringUtils;
  */
 public class TableMeta {
   /** 主键 */
-  private String[] primaryKey = {"id"};
+  private String[] primaryKey;
   /** 表名 */
   private String name;
 
@@ -155,7 +155,7 @@ public class TableMeta {
     Map<String, String> fieldJavaTypeMap = new HashMap<>();
     if(fields != null && fields.size() != 0){
       for (FieldMeta fieldMeta : fields) {
-        String fieldName = fieldMeta.getName();
+        String fieldName = fieldMeta.getName().toLowerCase();
         String fieldType = fieldMeta.getType();
         // 默认读取用户自定义的sql-java类型映射
         if(this.typeMap != null && StringUtils.isNotEmpty(this.typeMap.get(fieldType))) {

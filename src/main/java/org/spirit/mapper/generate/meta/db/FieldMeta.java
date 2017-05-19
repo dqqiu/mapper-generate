@@ -56,7 +56,7 @@ public class FieldMeta {
     if(StringUtils.isEmpty(this.name)){
       return "";
     }
-    return StringUtils.camel(this.name);
+    return StringUtils.camel(this.name.toLowerCase());
   }
 
   public void setCamelName(String camelName) {
