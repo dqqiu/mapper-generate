@@ -289,6 +289,7 @@ public class MapperGenerateXmlAnalyze {
    *  @Author         : qiudequan
    */
   public static List<TableMeta> analyzeTables(Map<String, String> tableKeys, JDBCMeta jdbcMeta){
+    // 连接数据库
     JDBCUtils jdbcUtils = new JDBCUtils(jdbcMeta);
     jdbcUtils.connect();
     Connection connection = jdbcUtils.getConnection();
@@ -315,11 +316,12 @@ public class MapperGenerateXmlAnalyze {
               for (int i = 0, size = pks.length; i < size; i++) {
                 pks[i] = pks[i].toLowerCase();
               }
-              tableMeta.setPrimaryKey(primaryKey.split(","));
+              tableMeta.setPrimaryKey(pks);
             } else {
               tableMeta.setPrimaryKey(new String[]{primaryKey.toLowerCase()});
             }
           } else {
+            // 读取指定表的主键信息
             pkResultSet = metaData.getPrimaryKeys(connection.getCatalog().toUpperCase(), 
                 metaData.getUserName().toUpperCase(), tableName.toUpperCase());
             List<String> pkList = new ArrayList<>();
@@ -341,12 +343,11 @@ public class MapperGenerateXmlAnalyze {
             String sql = "select * from " + tableName + " where 1 = 2";
             jdbcUtils.setSql(sql);
             executeQuery = jdbcUtils.executeQuery();
-            ResultSetMetaData columnMd = executeQuery.getMetaData();
             fieldMeta = new FieldMeta();
             String fieldName = columnSet.getString("COLUMN_NAME");
             String fieldComment = columnSet.getString("REMARKS");
             String dataType = columnSet.getString("TYPE_NAME");
-            String length = String.valueOf(columnMd.getColumnDisplaySize(i));
+            String length = columnSet.getString("COLUMN_SIZE");
             String digits = columnSet.getString("DECIMAL_DIGITS");
             String nullable = columnSet.getString("NULLABLE");
             fieldMeta.setName(fieldName);
